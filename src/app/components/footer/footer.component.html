@@ -1,20 +1,20 @@
 <!-- Footer -->
-<footer class="footer">
-  <div class="footer-content">
-    <div class="footer-section">
-      <div class="eu-funding">
-        <div class="eu-logo">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<footer class="bg-white/95 backdrop-blur-sm border-t border-white/20 py-8">
+  <div class="max-w-6xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="space-y-4">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" fill="#003399"/>
             <path d="M12 2L14.5 8.5L21 9L16 13.5L17.5 20L12 16.5L6.5 20L8 13.5L3 9L9.5 8.5L12 2Z" fill="#FFD700"/>
           </svg>
         </div>
-        <div class="eu-text">
-          <h4>Funded by the European Union</h4>
-          <p>This project has received funding from the European Union's Horizon Europe programme under grant agreement CGI-Clinics 101057509</p>
-          <a href="#" class="know-more-link" (click)="showGrantInfo()">
+        <div class="flex-1">
+          <h4 class="text-base font-semibold text-gray-800 mb-2">Funded by the European Union</h4>
+          <p class="text-sm text-gray-600 leading-relaxed mb-2">This project has received funding from the European Union's Horizon Europe programme under grant agreement CGI-Clinics 101057509</p>
+          <a href="#" class="inline-flex items-center gap-1 text-blue-500 text-sm font-medium hover:underline cursor-pointer" (click)="showGrantInfo()">
             Know more
-            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2"/>
             </svg>
           </a>
@@ -22,13 +22,13 @@
       </div>
     </div>
     
-    <div class="footer-section">
-      <div class="copyright">
-        <p>© 2025 | Cancer Genome Interpreter Clinics | All Rights Reserved</p>
+    <div class="space-y-4">
+      <div>
+        <p class="text-sm text-gray-600 mb-4">© 2025 | Cancer Genome Interpreter Clinics | All Rights Reserved</p>
       </div>
-      <div class="footer-links">
-        <a href="#" class="footer-link">FAQs</a>
-        <a href="#" class="footer-link">Privacy policy</a>
+      <div class="flex gap-4">
+        <a href="#" class="text-gray-600 text-sm hover:text-gray-800 transition-colors">FAQs</a>
+        <a href="#" class="text-gray-600 text-sm hover:text-gray-800 transition-colors">Privacy policy</a>
       </div>
     </div>
   </div>

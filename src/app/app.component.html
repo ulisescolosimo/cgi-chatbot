@@ -1,11 +1,13 @@
 <!-- Show Login Page when not authenticated -->
-<div *ngIf="!isAuthenticated">
+<div *ngIf="!isAuthenticated" class="min-h-screen flex flex-col">
   <!-- Header Component -->
   <app-header></app-header>
 
   <!-- Main Content -->
-  <main class="main-content">
-    <app-login-form (loginSubmit)="onLoginSubmit($event)"></app-login-form>
+  <main class="flex-1 flex items-center justify-center py-12 px-8">
+    <div class="w-full max-w-6xl">
+      <app-login-form (loginSubmit)="onLoginSubmit($event)"></app-login-form>
+    </div>
   </main>
 
   <!-- Footer Component -->
