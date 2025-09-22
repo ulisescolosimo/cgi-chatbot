@@ -4,8 +4,7 @@ import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User | null = null;
