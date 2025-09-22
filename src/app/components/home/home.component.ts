@@ -1,22 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  currentUser: User | null = null;
+  private userSubscription: Subscription = new Subscription();
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    // Subscribe to current user changes
+    this.userSubscription = this.authService.currentUser$.subscribe(
+      (user: User | null) => {
+        this.currentUser = user;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    // Clean up subscription
+    this.userSubscription.unsubscribe();
   }
 
   logout() {
-    // TODO: Implement logout functionality
-    console.log('Logout clicked');
-    // For now, we'll reload the page to go back to login
-    window.location.reload();
+    this.authService.logout();
+    console.log('Usuario ha cerrado sesión');
   }
 
 }

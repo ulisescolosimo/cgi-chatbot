@@ -17,8 +17,19 @@
     
     <nav class="nav-section">
       <a href="#" class="nav-link">CGI-CLINICS</a>
-      <button class="btn btn-secondary">LOG IN</button>
-      <button class="btn btn-primary">JOIN</button>
+      
+      <!-- Show login/join buttons when not authenticated -->
+      <div *ngIf="!isAuthenticated" class="auth-buttons">
+        <button class="btn btn-secondary">LOG IN</button>
+        <button class="btn btn-primary">JOIN</button>
+      </div>
+      
+      <!-- Show user info and logout when authenticated -->
+      <div *ngIf="isAuthenticated" class="user-section">
+        <span class="user-welcome">Hola, {{ currentUser?.name || currentUser?.email }}</span>
+        <button class="btn btn-logout" (click)="logout()">Cerrar Sesión</button>
+      </div>
+      
       <div class="language-selector">
         <span>EN</span>
         <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -6,7 +6,7 @@
       <h1 class="welcome-title">¡Bienvenido a CGI-CLINICS!</h1>
       <p class="welcome-subtitle">Sistema de interpretación de genomas para clínicas oncológicas</p>
       <div class="user-info">
-        <span class="user-email">test@gmail.com</span>
+        <span class="user-email">{{ currentUser?.email || 'Usuario' }}</span>
         <button class="btn btn-logout" (click)="logout()">Cerrar Sesión</button>
       </div>
     </div>
