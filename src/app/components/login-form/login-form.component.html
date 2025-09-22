@@ -23,6 +23,7 @@
         placeholder="Email" 
         class="form-input" 
         [(ngModel)]="email"
+        name="email"
         (blur)="validateEmail()"
         (input)="clearError()"
         required>
@@ -41,6 +42,7 @@
         placeholder="Password" 
         class="form-input" 
         [(ngModel)]="password"
+        name="password"
         (blur)="validatePassword()"
         (input)="clearError()"
         required>
