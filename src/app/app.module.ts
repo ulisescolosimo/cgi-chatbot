@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HomeComponent } from './components/home/home.component';
     HeaderComponent,
     LoginFormComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    ChatbotComponent
   ],
   imports: [
     BrowserModule,

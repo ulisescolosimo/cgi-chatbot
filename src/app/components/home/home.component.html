@@ -1,148 +1,38 @@
-<!-- Home Page -->
-<div class="min-h-screen bg-gradient-to-br from-pink-400 via-purple-500 to-blue-600">
-  <!-- Welcome Header -->
-  <div class="bg-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-6 py-8">
-      <h1 class="text-4xl font-bold text-gray-800 mb-2">¡Bienvenido a CGI-CLINICS!</h1>
-      <p class="text-lg text-gray-600 mb-6">Sistema de interpretación de genomas para clínicas oncológicas</p>
-      <div class="flex items-center justify-between">
-        <span class="text-gray-700 font-medium">{{ currentUser?.email || 'Usuario' }}</span>
-        <button class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors" (click)="logout()">Cerrar Sesión</button>
-      </div>
-    </div>
+<!-- Welcome Page -->
+<div class="min-h-screen relative overflow-hidden">
+  <!-- Background Image -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('assets/home/background.png');">
+    <!-- Overlay for better text readability -->
+    <div class="absolute inset-0 bg-white/20"></div>
   </div>
 
-  <!-- Main Dashboard -->
-  <div class="max-w-7xl mx-auto px-6 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-      <!-- Quick Actions -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Acciones Rápidas</h3>
-        <div class="space-y-3">
-          <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center gap-3">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            Nuevo Análisis
-          </button>
-          <button class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center gap-3">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
-              <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
-              <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
-              <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            Ver Reportes
-          </button>
-          <button class="w-full bg-purple-500 hover:bg-purple-600 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center gap-3">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M16 21V19C16 17.9 15.1 17 14 17H10C8.9 17 8 17.9 8 19V21" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 11C13.66 11 15 9.66 15 8C15 6.34 13.66 5 12 5C10.34 5 9 6.34 9 8C9 9.66 10.34 11 12 11Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M20 21V19C20 17.1 18.9 15.5 17.3 15" stroke="currentColor" stroke-width="2"/>
-              <path d="M4 21V19C4 17.1 5.1 15.5 6.7 15" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            Mi Perfil
-          </button>
+  <!-- Main Content -->
+  <div class="relative z-10 flex items-center justify-center min-h-screen px-8 py-12">
+    <div class="w-full max-w-2xl">
+      <!-- Welcome Card -->
+      <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-8 md:p-12">
+        <!-- Title -->
+        <div class="mb-6 py-2 rounded-lg">
+          <h1 class="text-3xl md:text-4xl font-bold text-start bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            Welcome to eduCGI!
+          </h1>
         </div>
-      </div>
-
-      <!-- Recent Activity -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Actividad Reciente</h3>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V9H13V5H7V19H17Z" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <p class="font-medium text-gray-800">Análisis completado</p>
-              <p class="text-sm text-gray-600">Genoma del paciente #12345</p>
-              <span class="text-xs text-gray-500">Hace 2 horas</span>
-            </div>
-          </div>
-          <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-            <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <p class="font-medium text-gray-800">Nuevo análisis iniciado</p>
-              <p class="text-sm text-gray-600">Carga de datos genómicos</p>
-              <span class="text-xs text-gray-500">Hace 1 día</span>
-            </div>
-          </div>
-          <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-            <div class="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 21V19C16 17.9 15.1 17 14 17H10C8.9 17 8 17.9 8 19V21" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 11C13.66 11 15 9.66 15 8C15 6.34 13.66 5 12 5C10.34 5 9 6.34 9 8C9 9.66 10.34 11 12 11Z" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <p class="font-medium text-gray-800">Perfil actualizado</p>
-              <p class="text-sm text-gray-600">Información de contacto modificada</p>
-              <span class="text-xs text-gray-500">Hace 3 días</span>
-            </div>
-          </div>
+        
+        <!-- Description -->
+        <div class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4 mb-8">
+          <p>
+            As an <strong>AI chatbot</strong>, I'm here to help you understand the complex world of cancer on a molecular level. My goal is to make scientific information more accessible, providing clear explanations based on reliable sources.
+          </p>
+          <p>
+            <strong>Please remember: I am an AI, not a medical professional.</strong> The information I share is for educational purposes only and should never be used for self-diagnosis or to make medical decisions. Always consult with a qualified healthcare provider for personalized medical advice and treatment.
+          </p>
         </div>
-      </div>
-
-      <!-- Statistics -->
-      <div class="bg-white rounded-xl shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Estadísticas</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="text-center p-4 bg-blue-50 rounded-lg">
-            <div class="text-2xl font-bold text-blue-600">24</div>
-            <div class="text-sm text-gray-600">Análisis Completados</div>
-          </div>
-          <div class="text-center p-4 bg-green-50 rounded-lg">
-            <div class="text-2xl font-bold text-green-600">156</div>
-            <div class="text-sm text-gray-600">Genomas Procesados</div>
-          </div>
-          <div class="text-center p-4 bg-yellow-50 rounded-lg">
-            <div class="text-2xl font-bold text-yellow-600">89%</div>
-            <div class="text-sm text-gray-600">Precisión Media</div>
-          </div>
-          <div class="text-center p-4 bg-purple-50 rounded-lg">
-            <div class="text-2xl font-bold text-purple-600">12</div>
-            <div class="text-sm text-gray-600">Pacientes Activos</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Chat -->
-      <div class="bg-white rounded-xl shadow-lg p-6 lg:col-span-2 xl:col-span-1">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Chat de Soporte</h3>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
-                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
-                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm text-gray-700">¡Hola! Soy tu asistente virtual de CGI-CLINICS. ¿En qué puedo ayudarte hoy?</p>
-            </div>
-          </div>
-          <div class="flex gap-2">
-            <input type="text" placeholder="Escribe tu pregunta..." class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-            <button class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition-colors">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 2L11 13" stroke="currentColor" stroke-width="2"/>
-                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-          </div>
+        
+        <!-- Start Button -->
+        <div class="">
+          <button (click)="startChatbot()" class="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-1 px-10 rounded-lg text-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+            START
+          </button>
         </div>
       </div>
     </div>

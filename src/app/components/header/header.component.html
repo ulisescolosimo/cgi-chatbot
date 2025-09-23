@@ -2,42 +2,20 @@
 <header class="bg-white shadow-md">
   <div class="max-w-7xl mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
-          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#FF6B35"/>
-            <path d="M9 9L15 15M15 9L9 15" stroke="white" stroke-width="2"/>
-            <!-- Human figures inside magnifying glass -->
-            <circle cx="10" cy="10" r="1" fill="white"/>
-            <circle cx="14" cy="10" r="1" fill="white"/>
-            <circle cx="12" cy="14" r="1.5" fill="white"/>
-          </svg>
-        </div>
-        <span class="text-xl font-bold text-gray-800">CGI-CLINICS</span>
+      <!-- Logo -->
+      <div class="flex items-center">
+        <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+          LOGO
+        </button>
       </div>
       
-      <nav class="flex items-center gap-6">
-        <a href="#" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">CGI-CLINICS</a>
-        
-        <!-- Show login/join buttons when not authenticated -->
-        <div *ngIf="!isAuthenticated" class="flex items-center gap-3">
-          <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors">LOG IN</button>
-          <button class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">JOIN</button>
-        </div>
-        
-        <!-- Show user info and logout when authenticated -->
-        <div *ngIf="isAuthenticated" class="flex items-center gap-4">
-          <span class="text-gray-700 font-medium">Hola, {{ currentUser?.name || currentUser?.email }}</span>
-          <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors" (click)="logout()">Cerrar Sesión</button>
-        </div>
-        
-        <div class="flex items-center gap-1 text-gray-600 cursor-pointer hover:text-gray-800 transition-colors">
-          <span class="text-sm font-medium">EN</span>
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </div>
-      </nav>
+      <!-- Language Selector -->
+      <div class="flex items-center gap-1 text-blue-800 cursor-pointer hover:text-blue-900 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded">
+        <span class="text-sm font-medium">EN</span>
+        <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </div>
     </div>
   </div>
 </header>

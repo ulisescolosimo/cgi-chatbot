@@ -1,0 +1,33 @@
+/* Solo estilos mínimos necesarios que no están en Tailwind */
+
+/* Hexagonal pattern background - usando inline styles en HTML */
+.hexagon-pattern {
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* Smooth transitions para todos los elementos interactivos */
+button, input, a {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Custom scrollbar styling */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}

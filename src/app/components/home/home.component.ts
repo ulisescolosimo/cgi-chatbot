@@ -1,34 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AuthService, User } from '../../services/auth.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  currentUser: User | null = null;
-  private userSubscription: Subscription = new Subscription();
+export class HomeComponent {
+  constructor(private router: Router) { }
 
-  constructor(private authService: AuthService) { }
-
-  ngOnInit(): void {
-    // Subscribe to current user changes
-    this.userSubscription = this.authService.currentUser$.subscribe(
-      (user: User | null) => {
-        this.currentUser = user;
-      }
-    );
+  startChatbot(): void {
+    this.router.navigate(['/chatbot']);
   }
-
-  ngOnDestroy(): void {
-    // Clean up subscription
-    this.userSubscription.unsubscribe();
-  }
-
-  logout() {
-    this.authService.logout();
-    console.log('Usuario ha cerrado sesión');
-  }
-
 }
