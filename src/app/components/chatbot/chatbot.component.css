@@ -8,6 +8,16 @@
   background-position: 0 0, 15px 15px;
 }
 
+/* Line clamp utility para limitar el texto a 3 líneas */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Smooth transitions para todos los elementos interactivos */
 button, input, a {
   transition: all 0.2s ease-in-out;
