@@ -13,7 +13,7 @@
       <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-8 md:p-12">
         <!-- Title -->
         <div class="mb-6 py-2 rounded-lg">
-          <h1 class="text-3xl md:text-4xl font-bold text-start bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
+          <h1 class="text-3xl md:text-4xl font-bold text-start bg-gradient-to-r from-[#CE3262] to-[#37AAC4] bg-clip-text text-transparent">
             Welcome to eduCGI!
           </h1>
         </div>
@@ -27,7 +27,7 @@
             <strong>Please remember: I am an AI, not a medical professional.</strong> The information I share is for educational purposes only and should never be used for self-diagnosis or to make medical decisions. Always consult with a qualified healthcare provider for personalized medical advice and treatment.
           </p>
           <p class="text-sm">
-            For more information, see <button (click)="openAgreementPopup()" class="text-blue-600 hover:text-blue-800 underline font-medium">agreement CGI-Clinics 101057509</button>.
+            For more information, see <button (click)="openAgreementPopup()" class="underline font-medium transition-colors duration-300" style="color: #37AAC4;" onmouseover="this.style.color='#CE3262'" onmouseout="this.style.color='#37AAC4'">agreement CGI-Clinics 101057509</button>.
           </p>
         </div>
         
@@ -54,6 +54,9 @@
       <!-- Popup Content -->
       <h2 class="text-2xl font-bold text-gray-800 mb-4">Agreement CGI-Clinics 101057509</h2>
       <div class="text-gray-700 leading-relaxed">
+        <p class="mb-4">
+          This project has received funding from the European Union's Horizon Europe programme under grant agreement CGI-Clinics 101057509.
+        </p>
         <p>
           Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Health and Digital Executive Agency (HADEA). Neither the European Union nor the granting authority can be held responsible for them.
         </p>
