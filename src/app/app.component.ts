@@ -1,37 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AuthService } from './services/auth.service';
+import { Component } from '@angular/core';
+import { Router, NavigationEnd, Event } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit, OnDestroy {
-  title = 'CGI-CLINICS';
-  isAuthenticated: boolean = false;
-  private authSubscription: Subscription = new Subscription();
+export class AppComponent {
+  title = 'eduCGI';
+  currentRoute = '';
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    // Subscribe to authentication state changes
-    this.authSubscription = this.authService.isAuthenticated$.subscribe(
-      (authenticated: boolean) => {
-        this.isAuthenticated = authenticated;
-      }
-    );
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentRoute = event.url;
+      });
   }
 
-  ngOnDestroy() {
-    // Clean up subscription
-    this.authSubscription.unsubscribe();
-  }
-
-  onLoginSubmit(event: Event) {
-    event.preventDefault();
-    // The login logic is now handled in the LoginFormComponent
-    console.log('Login successful - user authenticated');
+  isHomePage(): boolean {
+    return this.currentRoute === '/' || this.currentRoute === '';
   }
 
   showGrantInfo() {

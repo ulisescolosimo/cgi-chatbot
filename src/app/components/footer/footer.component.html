@@ -1,34 +1,71 @@
 <!-- Footer -->
-<footer class="bg-white/95 backdrop-blur-sm border-t border-white/20 py-8">
-  <div class="max-w-6xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-    <div class="space-y-4">
-      <div class="flex items-start gap-4">
-        <div class="flex-shrink-0">
-          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#003399"/>
-            <path d="M12 2L14.5 8.5L21 9L16 13.5L17.5 20L12 16.5L6.5 20L8 13.5L3 9L9.5 8.5L12 2Z" fill="#FFD700"/>
-          </svg>
+<footer class="bg-white border-t border-gray-200 py-8">
+  <div class="max-w-6xl mx-auto px-8">
+    <!-- Main Footer Content -->
+    <div class="grid grid-cols-3 gap-8 mb-8">
+      <!-- EU Funding Section -->
+      <div class="space-y-4 col-span-1">
+        <div class="bg-blue-600 text-white p-4 rounded-lg">
+          <div class="flex items-center gap-3 mb-2">
+            <!-- EU Flag -->
+            <div class="w-8 h-6 bg-blue-600 border border-white relative">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-6 h-6 relative">
+                  <div class="absolute inset-0 bg-yellow-400 rounded-full"></div>
+                  <div class="absolute top-1 left-1 w-1 h-1 bg-yellow-400 rounded-full"></div>
+                  <div class="absolute top-1 right-1 w-1 h-1 bg-yellow-400 rounded-full"></div>
+                  <div class="absolute bottom-1 left-1 w-1 h-1 bg-yellow-400 rounded-full"></div>
+                  <div class="absolute bottom-1 right-1 w-1 h-1 bg-yellow-400 rounded-full"></div>
+                  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-yellow-400 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+            <span class="font-semibold">Funded by the European Union</span>
+          </div>
         </div>
-        <div class="flex-1">
-          <h4 class="text-base font-semibold text-gray-800 mb-2">Funded by the European Union</h4>
-          <p class="text-sm text-gray-600 leading-relaxed mb-2">This project has received funding from the European Union's Horizon Europe programme under grant agreement CGI-Clinics 101057509</p>
-          <a href="#" class="inline-flex items-center gap-1 text-blue-500 text-sm font-medium hover:underline cursor-pointer" (click)="showGrantInfo()">
-            Know more
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </a>
+        <p class="text-sm text-gray-600 leading-relaxed">
+          This project has received funding from the European Union's Horizon Europe programme under grant agreement CGI-Clinics 101057509.
+        </p>
+      </div>
+
+      <!-- Empty third column -->
+      <div class="col-span-1"></div>
+      <!-- CGI-Clinics Logo Section -->
+      <div class="space-y-4 col-span-1">
+        <div class="flex items-center justify-center">
+          <div class="text-center">
+            <!-- CGI-Clinics Logo -->
+            <div class="w-16 h-16 mx-auto mb-2 relative">
+              <div class="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <div class="w-12 h-12 relative">
+                  <!-- Abstract human figure with interconnected dots -->
+                  <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                  <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                  <div class="absolute top-6 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                  <div class="absolute top-8 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                  <div class="absolute top-10 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                  <!-- Connecting lines -->
+                  <div class="absolute top-3 left-1/2 transform -translate-x-1/2 w-px h-2 bg-white opacity-50"></div>
+                  <div class="absolute top-5 left-1/2 transform -translate-x-1/2 w-px h-2 bg-white opacity-50"></div>
+                  <div class="absolute top-7 left-1/2 transform -translate-x-1/2 w-px h-2 bg-white opacity-50"></div>
+                  <div class="absolute top-9 left-1/2 transform -translate-x-1/2 w-px h-2 bg-white opacity-50"></div>
+                </div>
+              </div>
+            </div>
+            <h3 class="font-semibold text-gray-800">CGI-Clinics</h3>
+            <p class="text-sm text-gray-600">Cancer Genome Interpreter</p>
+          </div>
         </div>
       </div>
+      
     </div>
     
-    <div class="space-y-4">
-      <div>
-        <p class="text-sm text-gray-600 mb-4">© 2025 | Cancer Genome Interpreter Clinics | All Rights Reserved</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="#" class="text-gray-600 text-sm hover:text-gray-800 transition-colors">FAQs</a>
-        <a href="#" class="text-gray-600 text-sm hover:text-gray-800 transition-colors">Privacy policy</a>
+    <!-- Bottom Section -->
+    <div class="border-t border-gray-200 pt-6">
+      <div class="text-center">
+        <p class="text-sm text-gray-600">
+          By messaging eduCGI, you agree to our <a href="#" class="font-semibold text-blue-600 hover:underline transition-colors duration-300 hover:text-blue-800">Terms</a> and have read our <a href="#" class="font-semibold text-blue-600 hover:underline transition-colors duration-300 hover:text-blue-800">Privacy</a> and <a href="#" class="font-semibold text-blue-600 hover:underline transition-colors duration-300 hover:text-blue-800">Cookies Policy</a>
+        </p>
       </div>
     </div>
   </div>

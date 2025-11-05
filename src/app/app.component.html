@@ -1,22 +1,13 @@
-<!-- Show Login Page when not authenticated -->
-<div *ngIf="!isAuthenticated" class="min-h-screen flex flex-col">
-  <!-- Header Component -->
-  <app-header></app-header>
+<!-- Main Application Layout -->
+<div class="min-h-screen flex flex-col">
+  <!-- Header Component - Only show on home page -->
+  <app-header *ngIf="isHomePage()"></app-header>
 
-  <!-- Main Content -->
-  <main class="flex-1 flex items-center justify-center py-12 px-8">
-    <div class="w-full max-w-6xl">
-      <app-login-form (loginSubmit)="onLoginSubmit($event)"></app-login-form>
-    </div>
+  <!-- Main Content - Router Outlet -->
+  <main class="flex-1">
+    <router-outlet></router-outlet>
   </main>
 
-  <!-- Footer Component -->
-  <app-footer (grantInfoClick)="showGrantInfo()"></app-footer>
+  <!-- Footer Component - Only show on home page -->
+  <app-footer *ngIf="isHomePage()" (grantInfoClick)="showGrantInfo()"></app-footer>
 </div>
-
-<!-- Show Home Page when authenticated -->
-<div *ngIf="isAuthenticated">
-  <app-home></app-home>
-</div>
-
-<router-outlet></router-outlet>
