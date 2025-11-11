@@ -1,10 +1,10 @@
 <!-- Main Application Layout -->
-<div class="min-h-screen flex flex-col">
-  <!-- Header Component - Only show on home page -->
-  <app-header *ngIf="isHomePage()"></app-header>
+<div class="h-screen grid grid-rows-[auto_1fr_auto]">
+  <!-- Header Component - Always visible, independent -->
+  <app-header></app-header>
 
-  <!-- Main Content - Router Outlet -->
-  <main class="flex-1">
+  <!-- Main Content - Router Outlet (Sidebar + Chatbot) -->
+  <main class="overflow-hidden">
     <router-outlet></router-outlet>
   </main>
 

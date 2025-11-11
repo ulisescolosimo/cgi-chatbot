@@ -6,8 +6,17 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class FooterComponent {
   @Output() grantInfoClick = new EventEmitter<void>();
+  showModal = false;
 
   showGrantInfo() {
     this.grantInfoClick.emit();
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 }

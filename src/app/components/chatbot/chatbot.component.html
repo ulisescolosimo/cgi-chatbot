@@ -1,17 +1,20 @@
 <!-- Chatbot Component -->
-<div class="h-screen flex bg-gray-50 overflow-hidden">
+<div class="h-full flex bg-gray-50 overflow-hidden relative">
   <!-- Mobile Overlay (only visible on mobile when sidebar is expanded) -->
-  <div class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" 
+  <div class="md:hidden absolute inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm" 
        *ngIf="sidebarExpanded" 
        (click)="toggleSidebar()"></div>
   
   <!-- Sidebar -->
-  <div class="bg-bg-gray shadow-lg flex flex-col transition-all duration-300 ease-in-out overflow-y-auto h-full z-50 fixed top-0 left-0" 
+  <div class="bg-bg-gray shadow-lg flex flex-col transition-all duration-300 ease-in-out h-full md:relative absolute top-0 left-0" 
+       [ngStyle]="{'width': sidebarExpanded ? '90vw' : '0'}"
+       [class.overflow-y-auto]="sidebarExpanded"
+       [class.overflow-hidden]="!sidebarExpanded"
        [class.-translate-x-full]="!sidebarExpanded"
-       [class.w-[90vw]]="sidebarExpanded"
-       [class.w-16]="!sidebarExpanded"
-       [class.md:w-80]="sidebarExpanded"
-       [class.md:w-16]="!sidebarExpanded">
+       [class.translate-x-0]="sidebarExpanded"
+       [class.md:!w-80]="sidebarExpanded"
+       [class.md:!w-0]="!sidebarExpanded"
+       [class.z-50]="sidebarExpanded">
     
     <!-- Mobile Close Button (only visible on mobile) -->
     <div class="md:hidden flex justify-end p-4 border-b border-gray-100" *ngIf="sidebarExpanded">
@@ -88,8 +91,12 @@
             <input type="checkbox" [(ngModel)]="healthProfileEnabled" 
                    class="sr-only peer" id="health-toggle">
             <label for="health-toggle" 
-                   class="flex h-5 w-10 cursor-pointer items-center rounded-full bg-gray-300 p-1 transition-colors duration-200 ease-in-out peer-checked:bg-[#CE3262] peer-focus:ring-2 peer-focus:ring-[#CE3262] peer-focus:ring-offset-2">
-              <span class="h-4 w-4 rounded-full bg-white shadow-md transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
+                   class="block h-5 w-10 cursor-pointer rounded-full p-0.5 transition-colors duration-200 ease-in-out"
+                   [class.bg-gray-300]="!healthProfileEnabled"
+                   [class.bg-[#CE3262]]="healthProfileEnabled">
+              <span class="block h-4 w-4 rounded-full bg-white shadow-md transition-transform duration-200 ease-in-out"
+                    [class.translate-x-0]="!healthProfileEnabled"
+                    [class.translate-x-5]="healthProfileEnabled"></span>
             </label>
           </div>
           <!-- Filter Icon -->
@@ -140,13 +147,6 @@
             </svg>
             Sources
           </button>
-          
-          <button class="w-full border-2 border-[#37AAC4] text-[#37AAC4] rounded-lg px-4 py-2 flex justify-center items-center hover:border-[#CE3262] hover:text-[#CE3262] transition-colors group">
-            <svg class="w-4 h-4 mr-2 group-hover:text-[#CE3262] transition-colors" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path>
-            </svg>
-            Cancer Genome Interpreter
-          </button>
         </div>
       </div>
       
@@ -185,41 +185,35 @@
   </div>
 
   <!-- Main Chat Area -->
-  <div class="flex-1 flex flex-col relative min-h-0 w-full transition-all duration-300 ease-in-out" 
-       [class]="sidebarExpanded ? 'ml-80' : 'ml-0'"
+  <div class="flex-1 flex flex-col relative min-h-0 w-full" 
        style="background-image: url('assets/home/background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <!-- Overlay for better readability -->
     <div class="absolute inset-0 bg-white bg-opacity-40 pointer-events-none"></div>
 
-     <!-- Header with Controls -->
-     <div class="flex justify-between items-center p-3 backdrop-blur-sm flex-shrink-0 relative z-20">
-      <!-- Left Controls -->
-      <div class="flex space-x-2">
-        <!-- Desktop Toggle Button -->
-        <button (click)="toggleSidebar()" 
-                class="hidden md:flex w-7 h-7 bg-white border border-gray-300 rounded-lg items-center justify-center shadow-md hover:bg-gray-50 cursor-pointer transition-colors"
-                title="Toggle Sidebar">
-          <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-        
-        <!-- Mobile Menu Button (only visible on mobile when sidebar is collapsed) -->
-        <button (click)="toggleSidebar()" 
-                class="md:hidden w-7 h-7 bg-white border border-gray-300 rounded-lg flex items-center justify-center shadow-md hover:bg-gray-50 cursor-pointer transition-colors"
-                *ngIf="!sidebarExpanded"
-                title="Abrir Menú">
-          <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <!-- Toggle Sidebar Button (Absolute) -->
+    <!-- Desktop Toggle Button -->
+    <button (click)="toggleSidebar()" 
+            class="hidden md:flex w-7 h-7 bg-white border border-gray-300 rounded-lg items-center justify-center shadow-md hover:bg-gray-50 cursor-pointer transition-colors absolute top-3 left-3 z-20"
+            title="Toggle Sidebar">
+      <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    
+    <!-- Mobile Menu Button -->
+    <button (click)="toggleSidebar()" 
+            class="md:hidden w-7 h-7 bg-white border border-gray-300 rounded-lg flex items-center justify-center shadow-md hover:bg-gray-50 cursor-pointer transition-colors absolute top-3 left-3 z-20"
+            *ngIf="!sidebarExpanded"
+            title="Abrir Menú">
+      <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
 
     <!-- Chat Content -->
     <div class="flex-1 flex flex-col justify-between overflow-y-auto relative z-10">
       <!-- Main Content -->
-      <div class="flex flex-col items-center gap-8 w-full max-w-6xl mx-auto px-4 py-4 flex-1 flex justify-center">
+      <div class="flex flex-col items-center gap-8 w-full max-w-5xl mx-auto px-4 py-4 flex-1 flex justify-center py-20">
         <!-- Greeting -->
         <div class="text-center w-full">
           <h1 class="text-5xl md:text-7xl lg:text-8xl font-medium mb-4 bg-clip-text text-transparent" style="background-image: linear-gradient(to right, #CE3262 0%, #CE3262 40%, #37AAC4 60%, #37AAC4 100%);">
@@ -229,67 +223,55 @@
         </div>
 
         <!-- Suggested Questions -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-         <!-- Card 1 -->
-         <div class="bg-white border-2 border-primary-blue rounded-lg p-4 hover:shadow-lg hover:border-primary-orange transition-all cursor-pointer flex flex-col h-32 md:h-36 group overflow-hidden"
-              (click)="onSuggestedQuestionClick('What is cancer?')">
-          <div class="flex-1 mb-2 overflow-hidden">
-            <h3 class="text-gray-800 text-sm md:text-base line-clamp-3">What is cancer?</h3>
-          </div>
-          <div class="flex justify-end flex-shrink-0">
-            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-orange-100 transition-colors flex-shrink-0">
-              <svg class="w-3 h-3 text-primary-blue group-hover:text-primary-orange transition-colors" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
-              </svg>
+        <div class="bg-white border-2 border-[#37AAC4] rounded-3xl p-6 w-full max-w-3xl shadow-sm">
+          <h3 class="text-lg font-medium text-gray-700 mb-4">Suggested questions</h3>
+          
+          <div class="divide-y divide-[#37AAC4]">
+            <!-- Question 1 -->
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                 (click)="onSuggestedQuestionClick('What is cancer?')">
+              <span class="text-gray-700 text-sm md:text-base">What is cancer?</span>
+              <div class="w-6 h-6 rounded-full border-2 border-[#CE3262] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] transition-colors">
+                <svg class="w-3 h-3 text-[#CE3262] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
             </div>
-          </div>
-        </div>
 
-         <!-- Card 2 -->
-         <div class="bg-white border-2 border-primary-blue rounded-lg p-4 hover:shadow-lg hover:border-primary-orange transition-all cursor-pointer flex flex-col h-32 md:h-36 group overflow-hidden" 
-              (click)="onSuggestedQuestionClick('What is a cancer mutation?')">
-          <div class="flex-1 mb-2 overflow-hidden">
-            <h3 class="text-gray-800 text-sm md:text-base line-clamp-3">What is a cancer mutation?</h3>
-          </div>
-          <div class="flex justify-end flex-shrink-0">
-            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-orange-100 transition-colors flex-shrink-0">
-              <svg class="w-3 h-3 text-primary-blue group-hover:text-primary-orange transition-colors" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
-              </svg>
+            <!-- Question 2 -->
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                 (click)="onSuggestedQuestionClick('What is a cancer mutation?')">
+              <span class="text-gray-700 text-sm md:text-base">What is a cancer mutation?</span>
+              <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
+                <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
             </div>
-          </div>
-        </div>
 
-         <!-- Card 3 -->
-         <div class="bg-white border-2 border-primary-blue rounded-lg p-4 hover:shadow-lg hover:border-primary-orange transition-all cursor-pointer flex flex-col h-32 md:h-36 group overflow-hidden" 
-              (click)="onSuggestedQuestionClick('How does genomic sequencing help in cancer diagnosis?')">
-          <div class="flex-1 mb-2 overflow-hidden">
-            <h3 class="text-gray-800 text-sm md:text-base line-clamp-3">How does genomic sequencing help in cancer diagnosis?</h3>
-          </div>
-          <div class="flex justify-end flex-shrink-0">
-            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-orange-100 transition-colors flex-shrink-0">
-              <svg class="w-3 h-3 text-primary-blue group-hover:text-primary-orange transition-colors" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-              </svg>
+            <!-- Question 3 -->
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                 (click)="onSuggestedQuestionClick('How does genomic sequencing help in cancer diagnosis?')">
+              <span class="text-gray-700 text-sm md:text-base">How does genomic sequencing help in cancer diagnosis?</span>
+              <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
+                <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
             </div>
-          </div>
-        </div>
 
-         <!-- Card 4 -->
-         <div class="bg-white border-2 border-primary-blue rounded-lg p-4 hover:shadow-lg hover:border-primary-orange transition-all cursor-pointer flex flex-col h-32 md:h-36 group overflow-hidden" 
-              (click)="onSuggestedQuestionClick('Explain the difference between somatic and germline mutations.')">
-          <div class="flex-1 mb-2 overflow-hidden">
-            <h3 class="text-gray-800 text-sm md:text-base line-clamp-3">Explain the difference between somatic and germline mutations.</h3>
-          </div>
-          <div class="flex justify-end flex-shrink-0">
-            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-orange-100 transition-colors flex-shrink-0">
-              <svg class="w-3 h-3 text-primary-blue group-hover:text-primary-orange transition-colors" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path>
-              </svg>
+            <!-- Question 4 -->
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                 (click)="onSuggestedQuestionClick('Explain the difference between somatic and germline mutations.')">
+              <span class="text-gray-700 text-sm md:text-base">Explain the difference between somatic and germline mutations.</span>
+              <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
+                <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
 
      <!-- Message Input Area -->
@@ -309,12 +291,12 @@
       
       <!-- Disclaimer -->
       <div class="text-center pb-4">
-        <p class="text-xs text-gray-500 mb-1">This is not a medical professional. This content is for educational purposes only.</p>
-        <div class="flex justify-center space-x-3 text-xs">
-          <a href="#" class="text-primary-blue hover:text-primary-orange transition-colors">Terms</a>
-          <a href="#" class="text-primary-blue hover:text-primary-orange transition-colors">Privacy</a>
-          <a href="#" class="text-primary-blue hover:text-primary-orange transition-colors">Cookies Policy</a>
-        </div>
+        <p class="text-xs text-gray-500 mb-1">This content is for educational purposes only. For medical advice or diagnosis, consult a professional.</p>
+        <p class="text-xs mb-1" style="color: #46A8C6;">
+          <a href="#" class="hover:text-[#CE3262] transition-colors">Terms</a>, 
+          <a href="#" class="hover:text-[#CE3262] transition-colors">Privacy</a> and 
+          <a href="#" class="hover:text-[#CE3262] transition-colors">Cookies Policy</a>
+        </p>
       </div>
     </div>
   </div>
