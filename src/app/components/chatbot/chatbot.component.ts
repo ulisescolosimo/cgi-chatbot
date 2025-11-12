@@ -1,16 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+
+interface Source {
+  id: number;
+  url: string;
+  title?: string;
+}
+
+interface Message {
+  text: string;
+  isUser: boolean;
+  feedback?: 'like' | 'dislike' | null;
+  showFeedbackBox?: boolean;
+  feedbackText?: string;
+  sources?: Source[];
+}
 
 @Component({
   selector: 'app-chatbot',
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
-export class ChatbotComponent implements OnInit {
-  sidebarExpanded: boolean = true;
+export class ChatbotComponent implements OnInit, OnDestroy {
+  sidebarExpanded: boolean = false;
   healthProfileEnabled: boolean = true;
   isMobile: boolean = false;
-  searchQuery: string = '';
+  
+  private _searchQuery: string = '';
+  private resizeHandler: () => void;
+  
+  // Chat messages
+  messages: Message[] = [];
+  currentMessage: string = '';
+  
+  // Sources popover
+  showSourcesPopover: { [key: number]: boolean } = {};
+  
+  // Sugerencias de preguntas
+  quickSuggestions: string[] = [
+    'What is a cancer mutation?',
+    'How does genomic sequencing help?',
+    'What are actionable mutations?'
+  ];
   
   // Lista completa de preguntas del historial
   allChatHistory: string[] = [
@@ -30,51 +61,176 @@ export class ChatbotComponent implements OnInit {
     'What is immunotherapy in cancer treatment?'
   ];
   
-  // Lista filtrada de preguntas
-  get filteredChatHistory(): string[] {
-    if (!this.searchQuery.trim()) {
-      return this.allChatHistory;
-    }
-    return this.allChatHistory.filter(question => 
-      question.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+  // Lista filtrada de preguntas (ahora es una propiedad, no un getter)
+  filteredChatHistory: string[] = [...this.allChatHistory];
+
+  get searchQuery(): string {
+    return this._searchQuery;
   }
 
-  constructor(private router: Router) { }
+  set searchQuery(value: string) {
+    this._searchQuery = value;
+    this.updateFilteredHistory();
+  }
+
+  constructor(private router: Router) {
+    // Bind del resize handler para poder removerlo después
+    this.resizeHandler = () => this.checkScreenSize();
+  }
 
   ngOnInit(): void {
     this.checkScreenSize();
-    window.addEventListener('resize', () => this.checkScreenSize());
+    // En desktop, la sidebar empieza abierta; en mobile, cerrada
+    if (!this.isMobile) {
+      this.sidebarExpanded = true;
+    }
+    window.addEventListener('resize', this.resizeHandler);
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar el event listener para evitar memory leaks
+    window.removeEventListener('resize', this.resizeHandler);
+  }
+
+  private updateFilteredHistory(): void {
+    if (!this._searchQuery.trim()) {
+      this.filteredChatHistory = [...this.allChatHistory];
+    } else {
+      const query = this._searchQuery.toLowerCase();
+      this.filteredChatHistory = this.allChatHistory.filter(question => 
+        question.toLowerCase().includes(query)
+      );
+    }
   }
 
   checkScreenSize(): void {
     this.isMobile = window.innerWidth < 768; // md breakpoint
-    // La sidebar puede ser toggleada tanto en mobile como en desktop
   }
 
   toggleSidebar(): void {
-    console.log('toggleSidebar() called, current state:', this.sidebarExpanded);
     this.sidebarExpanded = !this.sidebarExpanded;
-    console.log('Sidebar toggled to:', this.sidebarExpanded);
   }
 
   onSuggestedQuestionClick(question: string): void {
-    console.log('Pregunta sugerida clickeada:', question);
-    // Aquí puedes agregar la lógica para manejar la pregunta
+    this.sendMessage(question);
+  }
+
+  sendMessage(messageText?: string): void {
+    const text = messageText || this.currentMessage.trim();
+    if (!text) return;
+
+    // Agregar mensaje del usuario
+    this.messages.push({
+      text: text,
+      isUser: true
+    });
+
+    // Limpiar input
+    this.currentMessage = '';
+
+    // Simular respuesta del bot
+    setTimeout(() => {
+      this.getBotResponse(text);
+    }, 500);
+  }
+
+  getBotResponse(question: string): void {
+    let response = '';
+    let sources: Source[] = [];
+    
+    // Respuesta hardcodeada para "what is cancer?"
+    if (question.toLowerCase().includes('what is cancer')) {
+      response = 'Cancer is a disease in which some of the body\'s cells grow uncontrollably and spread to other parts of the body.¹';
+      sources = [
+        {
+          id: 1,
+          url: 'https://www.cancer.gov/about-cancer/understanding/what-is-cancer',
+          title: 'National Cancer Institute - What is Cancer?'
+        }
+      ];
+    } else {
+      response = 'I\'m sorry, I don\'t have a specific answer for that question yet. This is a demo response.';
+    }
+
+    this.messages.push({
+      text: response,
+      isUser: false,
+      feedback: null,
+      showFeedbackBox: false,
+      feedbackText: '',
+      sources: sources
+    });
+  }
+
+  setFeedback(message: Message, type: 'like' | 'dislike'): void {
+    message.feedback = message.feedback === type ? null : type;
+  }
+
+  toggleFeedbackBox(message: Message): void {
+    message.showFeedbackBox = !message.showFeedbackBox;
+  }
+
+  submitFeedback(message: Message): void {
+    // Aquí puedes enviar el feedback a un servidor
+    console.log('Feedback submitted:', message.feedbackText);
+    message.showFeedbackBox = false;
+    message.feedbackText = '';
+  }
+
+  onQuickSuggestionClick(suggestion: string): void {
+    this.sendMessage(suggestion);
+  }
+
+  toggleSourcesPopover(messageIndex: number): void {
+    this.showSourcesPopover[messageIndex] = !this.showSourcesPopover[messageIndex];
+  }
+
+  showSourcesPopoverFor(messageIndex: number): void {
+    this.showSourcesPopover[messageIndex] = true;
+  }
+
+  hideSourcesPopoverFor(messageIndex: number): void {
+    this.showSourcesPopover[messageIndex] = false;
+  }
+
+  isSourcesPopoverVisible(messageIndex: number): boolean {
+    return !!this.showSourcesPopover[messageIndex];
   }
 
   clearHistory(): void {
-    console.log('Historial limpiado');
+    this.messages = [];
   }
 
   toggleHealthProfile(): void {
     this.healthProfileEnabled = !this.healthProfileEnabled;
-    console.log('Perfil de salud:', this.healthProfileEnabled ? 'activado' : 'desactivado');
   }
 
   clearSearch(): void {
     this.searchQuery = '';
-    console.log('Search cleared');
+  }
+
+  // TrackBy functions para mejorar rendimiento del *ngFor
+  trackByQuestion(index: number, question: string): string {
+    return question;
+  }
+
+  trackByMessage(index: number, message: Message): number {
+    return index;
+  }
+
+  trackBySource(index: number, source: Source): number {
+    return source.id;
+  }
+
+  // Método para obtener el texto sin las referencias numéricas
+  getTextWithoutReferences(text: string): string {
+    return text.replace(/[¹²³⁴⁵⁶⁷⁸⁹⁰]+/g, '');
+  }
+
+  // Método para extraer las referencias del texto
+  getReferencesFromText(text: string): string[] {
+    const matches = text.match(/[¹²³⁴⁵⁶⁷⁸⁹⁰]+/g);
+    return matches || [];
   }
 
 }

@@ -18,9 +18,17 @@
   text-overflow: ellipsis;
 }
 
-/* Smooth transitions para todos los elementos interactivos */
+/* Optimización de rendimiento para transitions */
 button, input, a {
   transition: all 0.2s ease-in-out;
+}
+
+/* Optimización de hardware acceleration para sidebar */
+.sidebar-container {
+  will-change: width, transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Custom scrollbar styling */
