@@ -6,13 +6,11 @@
        (click)="toggleSidebar()"></div>
   
   <!-- Sidebar with fixed height and scroll -->
-  <div class="sidebar-container bg-bg-gray shadow-lg flex flex-col transition-all duration-300 ease-in-out z-50
-              fixed md:sticky top-0 left-0 h-screen overflow-y-auto" 
-       [ngClass]="{
-         'w-[90vw] translate-x-0 md:w-80': sidebarExpanded,
-         'w-0 -translate-x-full overflow-hidden md:w-0': !sidebarExpanded
-       }">
-    
+  <div class="sidebar-container bg-bg-gray shadow-lg flex flex-col z-50
+              fixed md:sticky top-0 left-0 h-screen overflow-hidden"
+       [class.sidebar-open]="sidebarExpanded"
+       [class.sidebar-closed]="!sidebarExpanded">
+    <div class="flex flex-col h-full">
     <!-- Mobile Close Button (only visible on mobile) -->
     <div class="md:hidden flex justify-end p-4 border-b border-gray-100" *ngIf="sidebarExpanded">
       <button (click)="toggleSidebar()" 
@@ -34,7 +32,7 @@
     </div>
 
     <!-- Chat History Section -->
-    <div class="p-4 border-b border-[#37AAC4]" *ngIf="sidebarExpanded">
+    <div class="flex-1 flex flex-col min-h-0 p-4 border-b border-[#37AAC4]" *ngIf="sidebarExpanded">
       <h3 class="text-sm font-medium text-gray-700 mb-3">Chat history</h3>
       
       <!-- Search Bar -->
@@ -52,7 +50,7 @@
       </div>
 
       <!-- Chat History List -->
-      <div class="space-y-2 mb-4">
+      <div class="flex-1 min-h-0 space-y-2 pr-1 overflow-y-auto">
         <div *ngFor="let question of filteredChatHistory; trackBy: trackByQuestion" 
              class="flex items-center p-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg cursor-pointer"
              (click)="onSuggestedQuestionClick(question)">
@@ -69,7 +67,7 @@
       </div>
 
       <!-- Clear History Button -->
-      <button class="w-full border-2 border-[#37AAC4] text-[#37AAC4] rounded-lg px-4 py-2 flex items-center justify-center hover:border-[#CE3262] hover:text-[#CE3262] transition-colors group">
+      <button class="w-full mt-4 border-2 border-[#37AAC4] text-[#37AAC4] rounded-lg px-4 py-2 flex items-center justify-center hover:border-[#CE3262] hover:text-[#CE3262] transition-colors group">
         <svg class="w-4 h-4 mr-2 group-hover:text-[#CE3262] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
         </svg>
@@ -78,11 +76,48 @@
     </div>
 
     <!-- My Health Profile Section -->
-    <div class="p-6 border-b border-[#37AAC4]">
+    <div class="p-6 border-b border-[#37AAC4] relative">
+      <ng-template #healthProfilePopoverBody>
+        <div class="flex justify-between items-start mb-3">
+          <p class="text-sm font-semibold text-[#CE3262] leading-snug">
+            This context information will be used as a filter into eduCGI:
+          </p>
+          <button class="text-gray-400 hover:text-[#CE3262]" (click)="closeHealthProfilePopover()">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <ul class="list-disc list-inside text-xs space-y-1 mb-4 text-gray-600">
+          <li>Tumor type</li>
+          <li>Tumor alteration (mutation, translocation, copy number alteration)</li>
+          <li>Treatment (drug, family, response)</li>
+        </ul>
+        <div class="space-y-2">
+          <button (click)="toggleTumorType()"
+                  class="w-full border text-xs font-semibold rounded-full px-4 py-2 flex items-center justify-between transition-colors"
+                  [ngClass]="tumorTypeSelected ? 'bg-[#CE3262] border-[#CE3262] text-white' : 'bg-white border-[#CE3262] text-[#CE3262]'">
+            <span>Non-small cell lung cancer</span>
+            <svg class="w-3 h-3 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 [ngClass]="tumorTypeSelected ? 'text-white' : 'text-[#CE3262]'">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <button (click)="toggleTumorAlteration()"
+                  class="w-full border text-xs font-semibold rounded-full px-4 py-2 flex items-center justify-between transition-colors"
+                  [ngClass]="tumorAlterationSelected ? 'bg-[#CE3262] border-[#CE3262] text-white' : 'bg-white border-[#CE3262] text-[#CE3262]'">
+            <span>EGFR</span>
+            <svg class="w-3 h-3 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 [ngClass]="tumorAlterationSelected ? 'text-white' : 'text-[#CE3262]'">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+        </div>
+      </ng-template>
       <!-- Expanded View -->
       <div *ngIf="sidebarExpanded" class="flex items-center justify-between">
         <h3 class="text-sm font-medium text-gray-700">My health profile</h3>
-        <div class="flex items-center">
+        <div class="flex items-center space-x-2">
           <!-- Checkbox -->
           <div class="relative inline-block w-10 mr-2">
             <input type="checkbox" [(ngModel)]="healthProfileEnabled" 
@@ -97,23 +132,44 @@
             </label>
           </div>
           <!-- Filter Icon -->
-          <button class="text-[#CE3262] hover:text-[#37AAC4] transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-            </svg>
-          </button>
+          <div class="relative">
+            <button class="text-[#CE3262] hover:text-[#37AAC4] transition-colors" (click)="toggleHealthProfilePopover()">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+              </svg>
+            </button>
+            <!-- Popover -->
+            <div *ngIf="healthProfilePopoverVisible && sidebarExpanded && !isMobile" 
+                 class="z-[80] bg-white border-2 border-[#CE3262] rounded-3xl shadow-2xl p-4 text-gray-700 absolute top-1/2 left-full ml-4 -translate-y-1/2 w-72">
+              <div class="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white border-t-2 border-r-2 border-[#CE3262] transform rotate-45"></div>
+              <ng-container *ngTemplateOutlet="healthProfilePopoverBody"></ng-container>
+            </div>
+          </div>
         </div>
       </div>
       
       <!-- Collapsed View -->
-      <div *ngIf="!sidebarExpanded" class="flex justify-center">
+      <div *ngIf="!sidebarExpanded" class="flex justify-center relative">
         <button class="w-8 h-8 border-2 border-primary-blue rounded-lg flex items-center justify-center hover:bg-primary-orange hover:border-primary-orange transition-colors group" 
                 [class.bg-primary-orange]="healthProfileEnabled" 
-                title="Health Profile">
+                title="Health Profile"
+                (click)="toggleHealthProfilePopover()">
           <svg class="w-4 h-4 text-primary-blue group-hover:text-white transition-colors" [class.text-white]="healthProfileEnabled" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
           </svg>
         </button>
+        <div *ngIf="healthProfilePopoverVisible && !isMobile" class="absolute top-full mt-3 left-1/2 -translate-x-1/2 w-72 bg-white border-2 border-[#CE3262] rounded-3xl shadow-2xl p-4 text-gray-700 z-[80]">
+          <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-l-2 border-t-2 border-[#CE3262] transform rotate-45"></div>
+          <ng-container *ngTemplateOutlet="healthProfilePopoverBody"></ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Popover Overlay -->
+    <div *ngIf="healthProfilePopoverVisible && isMobile" class="fixed inset-0 z-50 flex items-center justify-center px-6">
+      <div class="absolute inset-0 bg-black bg-opacity-40" (click)="closeHealthProfilePopover()"></div>
+      <div class="relative w-full max-w-sm bg-white border-2 border-[#CE3262] rounded-3xl shadow-2xl p-5 text-gray-700 z-10">
+        <ng-container *ngTemplateOutlet="healthProfilePopoverBody"></ng-container>
       </div>
     </div>
 
@@ -178,11 +234,12 @@
         </button>
       </div>
     </div>
+    </div>
 
   </div>
 
   <!-- Main Chat Area - Dynamic height -->
-  <div class="flex-1 flex flex-col relative w-full min-h-screen mt-4" 
+  <div class="flex-1 flex flex-col relative w-full mt-0 md:mt-4" 
        style="background-image: url('assets/home/background.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <!-- Overlay for better readability -->
     <div class="absolute inset-0 bg-white bg-opacity-40 pointer-events-none"></div>
@@ -208,188 +265,197 @@
     </button>
 
     <!-- Chat Content - grows with content -->
-    <div class="flex-1 flex flex-col relative z-10">
-      <!-- Initial State (No messages) -->
-      <div *ngIf="messages.length === 0" class="flex flex-col flex-1 gap-8 w-full max-w-3xl mx-auto px-4 py-20">
-        <!-- Greeting -->
-        <div class="text-left w-full">
-          <h1 class="text-5xl md:text-7xl lg:text-8xl font-medium mb-4" 
-              style="background: linear-gradient(to right, #CE3262 0%, #CE3262 20%, #37AAC4 60%, #37AAC4 100%); 
-                     -webkit-background-clip: text;
-                     -webkit-text-fill-color: transparent;
-                     background-clip: text;
-                     color: transparent;
-                     display: inline-block;">
-            Hello
-          </h1>
-          <p class="text-xl md:text-2xl lg:text-3xl text-gray-600 font-light">How may I help you today?</p>
-        </div>
-
-        <!-- Suggested Questions -->
-        <div class="bg-white border-2 border-[#37AAC4] rounded-3xl p-6 w-full shadow-sm">
-          <h3 class="text-lg font-medium text-gray-700 mb-4">Suggested questions</h3>
-          
-          <div class="divide-y divide-[#37AAC4]">
-            <!-- Question 1 -->
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
-                 (click)="onSuggestedQuestionClick('What is cancer?')">
-              <span class="text-gray-700 text-sm md:text-base">What is cancer?</span>
-              <div class="w-6 h-6 rounded-full border-2 border-[#CE3262] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] transition-colors">
-                <svg class="w-3 h-3 text-[#CE3262] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </div>
+    <div class="flex-1 flex flex-col relative z-10 min-h-0">
+      <div class="flex-1 overflow-y-auto" #chatScrollContainer>
+        <!-- Initial State (No messages) -->
+        <ng-container *ngIf="messages.length === 0; else chatMessages">
+          <div class="flex flex-col gap-6 w-full max-w-3xl mx-auto px-4 py-10 md:py-12">
+            <!-- Greeting -->
+            <div class="text-left w-full">
+              <h1 class="text-4xl md:text-5xl lg:text-6xl font-medium mb-3" 
+                  style="background: linear-gradient(to right, #CE3262 0%, #CE3262 20%, #37AAC4 60%, #37AAC4 100%); 
+                         -webkit-background-clip: text;
+                         -webkit-text-fill-color: transparent;
+                         background-clip: text;
+                         color: transparent;
+                         display: inline-block;">
+                Hello
+              </h1>
+              <p class="text-lg md:text-xl lg:text-2xl text-gray-600 font-light">How may I help you today?</p>
             </div>
 
-            <!-- Question 2 -->
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
-                 (click)="onSuggestedQuestionClick('What is a cancer mutation?')">
-              <span class="text-gray-700 text-sm md:text-base">What is a cancer mutation?</span>
-              <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
-                <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </div>
-            </div>
+            <!-- Suggested Questions -->
+            <div class="bg-white border-2 border-[#37AAC4] rounded-3xl p-6 w-full shadow-sm">
+              <h3 class="text-lg font-medium text-gray-700 mb-4">Suggested questions</h3>
+              
+              <div class="divide-y divide-[#37AAC4]">
+                <!-- Question 1 -->
+                <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                     (click)="onSuggestedQuestionClick('What is cancer?')">
+                  <span class="text-gray-700 text-xs md:text-sm">What is cancer?</span>
+                  <div class="w-6 h-6 rounded-full border-2 border-[#CE3262] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] transition-colors">
+                    <svg class="w-3 h-3 text-[#CE3262] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
 
-            <!-- Question 3 -->
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
-                 (click)="onSuggestedQuestionClick('How does genomic sequencing help in cancer diagnosis?')">
-              <span class="text-gray-700 text-sm md:text-base">How does genomic sequencing help in cancer diagnosis?</span>
-              <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
-                <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </div>
-            </div>
+                <!-- Question 2 -->
+                <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                     (click)="onSuggestedQuestionClick('What is a cancer mutation?')">
+                  <span class="text-gray-700 text-xs md:text-sm">What is a cancer mutation?</span>
+                  <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
+                    <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
 
-            <!-- Question 4 -->
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
-                 (click)="onSuggestedQuestionClick('Explain the difference between somatic and germline mutations.')">
-              <span class="text-gray-700 text-sm md:text-base">Explain the difference between somatic and germline mutations.</span>
-              <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
-                <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                <!-- Question 3 -->
+                <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                     (click)="onSuggestedQuestionClick('How does genomic sequencing help in cancer diagnosis?')">
+                  <span class="text-gray-700 text-xs md:text-sm">How does genomic sequencing help in cancer diagnosis?</span>
+                  <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
+                    <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
+                </div>
 
-      <!-- Chat Messages - Dynamic height, no scroll -->
-      <div *ngIf="messages.length > 0" class="flex-1 px-4 py-6">
-        <div class="max-w-4xl mx-auto space-y-6">
-          <div *ngFor="let message of messages; let i = index; trackBy: trackByMessage" class="flex" [class.justify-end]="message.isUser">
-            <!-- User Message -->
-            <div *ngIf="message.isUser" class="bg-[#37AAC4] text-white rounded-2xl px-4 py-3 max-w-2xl">
-              <p class="text-sm md:text-base">{{ message.text }}</p>
-            </div>
-
-            <!-- Bot Message -->
-            <div *ngIf="!message.isUser" class="flex flex-col max-w-2xl w-full">
-              <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm relative">
-                <p class="text-sm md:text-base text-gray-800 whitespace-pre-line">
-                  {{ getTextWithoutReferences(message.text) }}
-                  <span *ngIf="message.sources && message.sources.length > 0" 
-                        class="relative inline-block">
-                    <span (mouseenter)="showSourcesPopoverFor(i)"
-                          (mouseleave)="hideSourcesPopoverFor(i)"
-                          (click)="toggleSourcesPopover(i)"
-                          class="text-[#37AAC4] hover:text-[#CE3262] cursor-pointer font-medium transition-colors">
-                      {{ getReferencesFromText(message.text).join('') }}
-                    </span>
-                    
-                    <!-- Sources Popover -->
-                    <div *ngIf="isSourcesPopoverVisible(i)"
-                         (mouseenter)="showSourcesPopoverFor(i)"
-                         (mouseleave)="hideSourcesPopoverFor(i)"
-                         class="absolute left-0 top-full mt-2 z-50 w-80 bg-white rounded-lg shadow-xl border-2 border-[#CE3262] p-4">
-                      <!-- Arrow -->
-                      <div class="absolute -top-2 left-4 w-4 h-4 bg-white border-l-2 border-t-2 border-[#CE3262] transform rotate-45"></div>
-                      
-                      <!-- Content -->
-                      <div class="relative">
-                        <h3 class="text-sm font-bold mb-3" style="color: #CE3262;">Source</h3>
-                        <div class="space-y-2">
-                          <div *ngFor="let source of message.sources; trackBy: trackBySource" 
-                               class="flex items-start gap-2">
-                            <span class="text-[#CE3262] font-bold flex-shrink-0">{{ source.id }}</span>
-                            <div class="flex-1 min-w-0">
-                              <a [href]="source.url" 
-                                 target="_blank" 
-                                 rel="noopener noreferrer"
-                                 class="text-[#37AAC4] hover:text-[#CE3262] text-xs break-all transition-colors block">
-                                {{ source.url }}
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </span>
-                </p>
-              </div>
-
-              <!-- Feedback Buttons -->
-              <div class="flex items-center gap-2 mt-2 ml-2">
-                <!-- Like Button -->
-                <button (click)="setFeedback(message, 'like')" 
-                        class="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
-                        [class.bg-green-100]="message.feedback === 'like'">
-                  <svg class="w-4 h-4" [class.text-green-600]="message.feedback === 'like'" 
-                       [class.text-gray-500]="message.feedback !== 'like'" 
-                       fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
-                  </svg>
-                </button>
-
-                <!-- Dislike Button -->
-                <button (click)="setFeedback(message, 'dislike')" 
-                        class="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
-                        [class.bg-red-100]="message.feedback === 'dislike'">
-                  <svg class="w-4 h-4" [class.text-red-600]="message.feedback === 'dislike'" 
-                       [class.text-gray-500]="message.feedback !== 'dislike'" 
-                       fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path>
-                  </svg>
-                </button>
-
-                <!-- Additional Feedback Button -->
-                <button (click)="toggleFeedbackBox(message)" 
-                        class="text-xs text-gray-500 hover:text-[#37AAC4] ml-2 transition-colors">
-                  Additional feedback
-                </button>
-              </div>
-
-              <!-- Feedback Text Box -->
-              <div *ngIf="message.showFeedbackBox" class="mt-3 ml-2">
-                <textarea [(ngModel)]="message.feedbackText" 
-                          placeholder="Tell us more about your experience..."
-                          class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#37AAC4] focus:ring-1 focus:ring-[#37AAC4] resize-none"
-                          rows="3"></textarea>
-                <div class="flex justify-end mt-2 gap-2">
-                  <button (click)="toggleFeedbackBox(message)" 
-                          class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                    Cancel
-                  </button>
-                  <button (click)="submitFeedback(message)" 
-                          class="px-3 py-1 text-sm bg-[#37AAC4] text-white rounded-lg hover:bg-[#2a8a9f] transition-colors">
-                    Submit
-                  </button>
+                <!-- Question 4 -->
+                <div class="flex items-center justify-between py-3 hover:bg-gray-50 cursor-pointer transition-colors group"
+                     (click)="onSuggestedQuestionClick('Explain the difference between somatic and germline mutations.')">
+                  <span class="text-gray-700 text-xs md:text-sm">Explain the difference between somatic and germline mutations.</span>
+                  <div class="w-6 h-6 rounded-full border-2 border-[#37AAC4] flex items-center justify-center flex-shrink-0 ml-4 group-hover:bg-[#CE3262] group-hover:border-[#CE3262] transition-colors">
+                    <svg class="w-3 h-3 text-[#37AAC4] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
+
+        <!-- Chat Messages -->
+        <ng-template #chatMessages>
+          <div class="px-4 py-6">
+            <div class="max-w-4xl mx-auto space-y-6">
+              <div #chatMessage
+                   *ngFor="let message of messages; let i = index; trackBy: trackByMessage" 
+                   class="flex" 
+                   [class.justify-end]="message.isUser">
+                <!-- User Message -->
+                <div *ngIf="message.isUser" class="bg-[#37AAC4] text-white rounded-2xl px-4 py-3 max-w-2xl">
+                  <p class="text-sm md:text-base">{{ message.text }}</p>
+                </div>
+
+                <!-- Bot Message -->
+                <div *ngIf="!message.isUser" class="flex flex-col max-w-2xl w-full">
+                  <div class="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm relative">
+                    <p class="text-sm md:text-base text-gray-800 whitespace-pre-line">
+                      {{ getTextWithoutReferences(message.text) }}
+                      <span *ngIf="message.sources && message.sources.length > 0" 
+                            class="relative inline-block">
+                        <span (mouseenter)="showSourcesPopoverFor(i)"
+                              (mouseleave)="hideSourcesPopoverFor(i)"
+                              (click)="toggleSourcesPopover(i)"
+                              class="text-[#37AAC4] hover:text-[#CE3262] cursor-pointer font-medium transition-colors">
+                          {{ getReferencesFromText(message.text).join('') }}
+                        </span>
+                        
+                        <!-- Sources Popover -->
+                        <div *ngIf="isSourcesPopoverVisible(i)"
+                             (mouseenter)="showSourcesPopoverFor(i)"
+                             (mouseleave)="hideSourcesPopoverFor(i)"
+                             class="absolute left-0 top-full mt-2 z-50 w-80 bg-white rounded-lg shadow-xl border-2 border-[#CE3262] p-4">
+                          <!-- Arrow -->
+                          <div class="absolute -top-2 left-4 w-4 h-4 bg-white border-l-2 border-t-2 border-[#CE3262] transform rotate-45"></div>
+                          
+                          <!-- Content -->
+                          <div class="relative">
+                            <h3 class="text-sm font-bold mb-3" style="color: #CE3262;">Source</h3>
+                            <div class="space-y-2">
+                              <div *ngFor="let source of message.sources; trackBy: trackBySource" 
+                                   class="flex items-start gap-2">
+                                <span class="text-[#CE3262] font-bold flex-shrink-0">{{ source.id }}</span>
+                                <div class="flex-1 min-w-0">
+                                  <a [href]="source.url" 
+                                     target="_blank" 
+                                     rel="noopener noreferrer"
+                                     class="text-[#37AAC4] hover:text-[#CE3262] text-xs break-all transition-colors block">
+                                    {{ source.url }}
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </span>
+                    </p>
+                  </div>
+
+                  <!-- Feedback Buttons -->
+                  <div class="flex items-center gap-2 mt-2 ml-2">
+                    <!-- Like Button -->
+                    <button (click)="setFeedback(message, 'like')" 
+                            class="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+                            [class.bg-green-100]="message.feedback === 'like'">
+                      <svg class="w-4 h-4" [class.text-green-600]="message.feedback === 'like'" 
+                           [class.text-gray-500]="message.feedback !== 'like'" 
+                           fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path>
+                      </svg>
+                    </button>
+
+                    <!-- Dislike Button -->
+                    <button (click)="setFeedback(message, 'dislike')" 
+                            class="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
+                            [class.bg-red-100]="message.feedback === 'dislike'">
+                      <svg class="w-4 h-4" [class.text-red-600]="message.feedback === 'dislike'" 
+                           [class.text-gray-500]="message.feedback !== 'dislike'" 
+                           fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path>
+                      </svg>
+                    </button>
+
+                    <!-- Additional Feedback Button -->
+                    <button (click)="toggleFeedbackBox(message)" 
+                            class="text-xs text-gray-500 hover:text-[#37AAC4] ml-2 transition-colors">
+                      Additional feedback
+                    </button>
+                  </div>
+
+                  <!-- Feedback Text Box -->
+                  <div *ngIf="message.showFeedbackBox" class="mt-3 ml-2">
+                    <textarea [(ngModel)]="message.feedbackText" 
+                              placeholder="Tell us more about your experience..."
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#37AAC4] focus:ring-1 focus:ring-[#37AAC4] resize-none"
+                              rows="3"></textarea>
+                    <div class="flex justify-end mt-2 gap-2">
+                      <button (click)="toggleFeedbackBox(message)" 
+                              class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                        Cancel
+                      </button>
+                      <button (click)="submitFeedback(message)" 
+                              class="px-3 py-1 text-sm bg-[#37AAC4] text-white rounded-lg hover:bg-[#2a8a9f] transition-colors">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
 
-     <!-- Message Input Area - Follows content -->
-     <div class="bg-white border-t border-gray-100 relative z-10">
+     <!-- Message Input Area - Fixed inside chat -->
+     <div class="bg-white border-t border-gray-100 relative z-20 flex-shrink-0 sticky bottom-0 left-0">
       <!-- Quick Suggestions (only show when there are messages) -->
       <div *ngIf="messages.length > 0" class="px-4 pt-4 pb-2">
-        <div class="flex flex-wrap gap-2 max-w-6xl mx-auto">
+        <div class="flex flex-wrap gap-2 max-w-4xl mx-auto justify-center text-center">
           <button *ngFor="let suggestion of quickSuggestions" 
                   (click)="onQuickSuggestionClick(suggestion)"
                   class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs md:text-sm rounded-full transition-colors">
@@ -398,19 +464,19 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-center space-x-3 mb-2 p-4">
-         <div class="flex items-center space-x-3 max-w-6xl w-full">
+      <div class="flex items-center justify-center mb-2 px-4 pb-4">
+         <div class="flex items-center space-x-3 w-full max-w-4xl">
            <input type="text" 
                   [(ngModel)]="currentMessage"
                   (keydown.enter)="sendMessage()"
                   placeholder="Your message" 
-                  class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue text-sm">
+                  class="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue text-sm bg-white">
            <button (click)="sendMessage()"
-                   class="w-10 h-10 border-2 border-primary-blue text-primary-blue rounded-full flex items-center justify-center hover:border-[#CE3262] hover:text-[#CE3262] transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-            </svg>
-          </button>
+                   class="w-12 h-12 border-2 border-primary-blue text-primary-blue rounded-full flex items-center justify-center hover:border-[#CE3262] hover:text-[#CE3262] transition-colors bg-white">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+              </svg>
+            </button>
          </div>
       </div>
       

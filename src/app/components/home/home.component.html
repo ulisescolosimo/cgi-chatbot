@@ -1,5 +1,5 @@
 <!-- Welcome Page -->
-<div class="min-h-screen relative overflow-hidden">
+<div class="relative overflow-hidden">
   <!-- Background Image -->
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('assets/home/background.png');">
     <!-- Overlay for better text readability -->
@@ -7,19 +7,19 @@
   </div>
 
   <!-- Main Content -->
-  <div class="relative z-10 flex items-center justify-center min-h-screen px-8 py-12">
-    <div class="w-full max-w-2xl">
+  <div class="relative z-10 flex items-center justify-center px-5 md:px-6 md:py-10">
+    <div class="w-full max-w-xl">
       <!-- Welcome Card -->
-      <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-8 md:p-12">
+      <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-6 md:p-8">
         <!-- Title -->
-        <div class="mb-6 py-2 rounded-lg">
-          <h1 class="text-3xl md:text-4xl font-bold text-start bg-clip-text text-transparent" style="background-image: linear-gradient(to right, #CE3262 0%, #CE3262 40%, #37AAC4 60%, #37AAC4 100%);">
+        <div class="mb-4 py-1 rounded-lg">
+          <h1 class="text-2xl md:text-3xl font-bold text-start bg-clip-text text-transparent" style="background-image: linear-gradient(to right, #CE3262 0%, #CE3262 40%, #37AAC4 60%, #37AAC4 100%);">
             Welcome to eduCGI!
           </h1>
         </div>
         
         <!-- Description -->
-        <div class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4 mb-8">
+        <div class="text-gray-700 text-sm md:text-base leading-relaxed space-y-3 mb-6">
           <p>
             As an <strong>AI chatbot</strong>, I'm here to help you understand the complex world of cancer on a molecular level. My goal is to make scientific information more accessible, providing clear explanations based on reliable sources.
           </p>
@@ -30,7 +30,7 @@
         
         <!-- Start Button -->
         <div class="">
-          <button (click)="startChatbot()" class="text-white font-semibold py-1 px-10 rounded-lg text-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: #46A8C6; focus-ring-color: #46A8C6;">
+          <button (click)="startChatbot()" class="text-white font-semibold py-1.5 px-8 rounded-lg text-base md:text-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-[#46A8C6] hover:bg-[#CE3262] focus:ring-[#46A8C6]">
             START
           </button>
         </div>

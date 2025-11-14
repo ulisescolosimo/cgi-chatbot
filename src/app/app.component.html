@@ -1,7 +1,7 @@
 <!-- Main Application Layout -->
 <div class="min-h-screen flex flex-col">
-  <!-- Header Component - Always visible, independent -->
-  <app-header></app-header>
+  <!-- Header Component - Hidden on chatbot view -->
+  <app-header *ngIf="!isChatbotPage()"></app-header>
 
   <!-- Main Content - Router Outlet (Sidebar + Chatbot) -->
   <main class="flex-grow">

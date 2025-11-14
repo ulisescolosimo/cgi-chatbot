@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div *ngIf="showModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" (click)="closeModal()">
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center" style="background-color: rgba(55, 170, 196, 0.35);" (click)="closeModal()">
   <div class="bg-white rounded-lg p-8 max-w-2xl mx-4 shadow-2xl" (click)="$event.stopPropagation()">
     <div class="flex justify-between items-start mb-4">
       <h2 class="text-xl font-semibold text-gray-800">Grant Information</h2>
@@ -16,15 +16,15 @@
 </div>
 
 <!-- Footer -->
-<footer class="bg-white border-t border-gray-200 py-8">
+<footer class="bg-white border-t border-gray-200 py-6">
   <div class="max-w-8xl mx-auto px-6">
     <!-- Main Footer Content -->
-    <div class="grid grid-cols-3 gap-8">
+    <div class="grid grid-cols-3 gap-6 items-center">
       <!-- EU Funding Section -->
-      <div class="space-y-4 col-span-1">
+      <div class="space-y-3 col-span-1">
         <div class="flex flex-col items-center justify-start h-full">
-          <img src="assets/home/EN_FundedbytheEU_RGB_POS.png" alt="Funded by the European Union" class="h-14 w-auto object-contain">
-          <p class="text-sm italic cursor-pointer hover:underline text-left transition-colors mt-2" style="color: #CE3262;" (click)="openModal()">
+          <img src="assets/home/EN_FundedbytheEU_RGB_POS.png" alt="Funded by the European Union" class="h-12 w-auto object-contain">
+          <p class="text-sm italic cursor-pointer underline-offset-2 text-left transition-colors mt-2 text-[#37AAC4] hover:text-[#CE3262]" (click)="openModal()">
             CGI-Clinics GA No.101057509.
           </p>
         </div>
@@ -38,10 +38,10 @@
       </div>
 
       <!-- CGI-Clinics Logo Section -->
-      <div class="space-y-4 col-span-1">
+      <div class="space-y-3 col-span-1">
         <div class="flex items-center justify-center h-full">
           <a href="https://www.cgiclinics.eu/" target="_blank" rel="noopener noreferrer" class="transition-transform duration-300 hover:scale-105">
-            <img src="assets/home/marca_CGI-Clinics-01.png" alt="CGI-Clinics Cancer Genome Interpreter" class="h-20 w-auto object-contain">
+            <img src="assets/home/marca_CGI-Clinics-01.png" alt="CGI-Clinics Cancer Genome Interpreter" class="h-16 w-auto object-contain">
           </a>
         </div>
       </div>

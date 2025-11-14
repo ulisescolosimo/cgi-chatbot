@@ -11,6 +11,7 @@ export class AppComponent {
   currentRoute = '';
 
   constructor(private router: Router) {
+    this.currentRoute = this.router.url;
     this.router.events
       .pipe(filter((event: Event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -20,6 +21,10 @@ export class AppComponent {
 
   isHomePage(): boolean {
     return this.currentRoute === '/' || this.currentRoute === '';
+  }
+
+  isChatbotPage(): boolean {
+    return this.currentRoute.includes('chatbot');
   }
 
   showGrantInfo() {

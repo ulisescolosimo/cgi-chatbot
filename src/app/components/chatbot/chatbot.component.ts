@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router } from '@angular/router';
 
 interface Source {
@@ -21,13 +21,20 @@ interface Message {
   templateUrl: './chatbot.component.html',
   styleUrls: ['./chatbot.component.css']
 })
-export class ChatbotComponent implements OnInit, OnDestroy {
+export class ChatbotComponent implements OnInit, OnDestroy, AfterViewInit {
   sidebarExpanded: boolean = false;
   healthProfileEnabled: boolean = true;
   isMobile: boolean = false;
+  healthProfilePopoverVisible: boolean = false;
+  tumorTypeSelected: boolean = true;
+  tumorAlterationSelected: boolean = true;
   
   private _searchQuery: string = '';
   private resizeHandler: () => void;
+  private scrollPending: boolean = false;
+  
+  @ViewChild('chatScrollContainer') chatScrollContainer?: ElementRef<HTMLDivElement>;
+  @ViewChildren('chatMessage') chatMessagesList?: QueryList<ElementRef<HTMLDivElement>>;
   
   // Chat messages
   messages: Message[] = [];
@@ -92,6 +99,10 @@ export class ChatbotComponent implements OnInit, OnDestroy {
     window.removeEventListener('resize', this.resizeHandler);
   }
 
+  ngAfterViewInit(): void {
+    this.queueScrollToBottom();
+  }
+
   private updateFilteredHistory(): void {
     if (!this._searchQuery.trim()) {
       this.filteredChatHistory = [...this.allChatHistory];
@@ -124,6 +135,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       text: text,
       isUser: true
     });
+    this.queueScrollToBottom();
 
     // Limpiar input
     this.currentMessage = '';
@@ -160,6 +172,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
       feedbackText: '',
       sources: sources
     });
+    this.queueScrollToBottom();
   }
 
   setFeedback(message: Message, type: 'like' | 'dislike'): void {
@@ -199,10 +212,27 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
   clearHistory(): void {
     this.messages = [];
+    this.queueScrollToBottom();
   }
 
   toggleHealthProfile(): void {
     this.healthProfileEnabled = !this.healthProfileEnabled;
+  }
+
+  toggleHealthProfilePopover(): void {
+    this.healthProfilePopoverVisible = !this.healthProfilePopoverVisible;
+  }
+
+  closeHealthProfilePopover(): void {
+    this.healthProfilePopoverVisible = false;
+  }
+
+  toggleTumorType(): void {
+    this.tumorTypeSelected = !this.tumorTypeSelected;
+  }
+
+  toggleTumorAlteration(): void {
+    this.tumorAlterationSelected = !this.tumorAlterationSelected;
   }
 
   clearSearch(): void {
@@ -231,6 +261,29 @@ export class ChatbotComponent implements OnInit, OnDestroy {
   getReferencesFromText(text: string): string[] {
     const matches = text.match(/[¹²³⁴⁵⁶⁷⁸⁹⁰]+/g);
     return matches || [];
+  }
+
+  private queueScrollToBottom(): void {
+    if (this.scrollPending) return;
+    this.scrollPending = true;
+    setTimeout(() => {
+      this.scrollPending = false;
+      this.scrollToBottom();
+    }, 0);
+  }
+
+  private scrollToBottom(): void {
+    const lastMessage = this.chatMessagesList?.last?.nativeElement;
+    if (lastMessage) {
+      lastMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    const container = this.chatScrollContainer?.nativeElement;
+    if (!container) return;
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: 'smooth'
+    });
   }
 
 }
