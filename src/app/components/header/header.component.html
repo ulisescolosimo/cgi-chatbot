@@ -20,10 +20,12 @@
           <span class="text-sm font-medium" style="color: #37AAC4;">{{ selectedLanguage }}</span>
           <svg class="w-4 h-4 transition-transform duration-300" 
                [class.rotate-180]="isDropdownOpen"
-               viewBox="0 0 24 24" 
+               xmlns="http://www.w3.org/2000/svg" 
                fill="none" 
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 10L12 15L17 10" stroke="#37AAC4" stroke-width="2"/>
+               viewBox="0 0 24 24" 
+               stroke-width="1.5" 
+               stroke="#37AAC4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
           </svg>
         </button>
 
