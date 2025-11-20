@@ -1,3 +1,4 @@
+//home.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -11,7 +12,7 @@ export class HomeComponent {
   constructor(private router: Router) { }
 
   startChatbot(): void {
-    this.router.navigate(['/chatbot']);
+    this.router.navigate(['/chat']);
   }
 
   openAgreementPopup(): void {

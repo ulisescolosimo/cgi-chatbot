@@ -1,40 +1,39 @@
-<!-- Welcome Page -->
-<div class="min-h-screen relative overflow-hidden">
+<!-- Welcome Page - Altura optimizada -->
+<div class="flex flex-col relative overflow-hidden min-h-[75vh]">
   <!-- Background Image -->
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('assets/home/background.png');">
     <!-- Overlay for better text readability -->
     <div class="absolute inset-0 bg-white/20"></div>
   </div>
 
-  <!-- Main Content -->
-  <div class="relative z-10 flex items-center justify-center min-h-screen px-8 py-12">
+  <!-- Main Content - Más padding vertical para ocupar espacio -->
+  <div class="relative z-10 flex-1 flex items-center justify-center px-8 py-12">
     <div class="w-full max-w-2xl">
-      <!-- Welcome Card -->
-      <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-8 md:p-12">
+      <!-- Welcome Card - Más alta con más contenido interno -->
+      <div class="bg-white rounded-2xl border-2 border-blue-200 shadow-xl p-8 md:p-10">
         <!-- Title -->
         <div class="mb-6 py-2 rounded-lg">
           <h1 class="text-3xl md:text-4xl font-bold text-start bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
-            Welcome to eduCGI!
+            {{ 'HOME.WELCOME_TITLE' | translate }}
           </h1>
         </div>
         
-        <!-- Description -->
+        <!-- Description - Más espaciado -->
         <div class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4 mb-8">
-          <p>
-            As an <strong>AI chatbot</strong>, I'm here to help you understand the complex world of cancer on a molecular level. My goal is to make scientific information more accessible, providing clear explanations based on reliable sources.
-          </p>
-          <p>
-            <strong>Please remember: I am an AI, not a medical professional.</strong> The information I share is for educational purposes only and should never be used for self-diagnosis or to make medical decisions. Always consult with a qualified healthcare provider for personalized medical advice and treatment.
-          </p>
-          <p class="text-sm">
-            For more information, see <button (click)="openAgreementPopup()" class="text-blue-600 hover:text-blue-800 underline font-medium">agreement CGI-Clinics 101057509</button>.
+          <p [innerHTML]="'HOME.DESCRIPTION_1' | translate"></p>
+          <p [innerHTML]="'HOME.DESCRIPTION_2' | translate"></p>
+          <p class="text-sm mt-6">
+            {{ 'HOME.AGREEMENT_TEXT' | translate }}
+            <button (click)="openAgreementPopup()" class="text-blue-600 hover:text-blue-800 underline font-medium">
+              {{ 'HOME.AGREEMENT_LINK' | translate }}
+            </button>.
           </p>
         </div>
         
-        <!-- Start Button -->
-        <div class="">
-          <button (click)="startChatbot()" class="text-white font-semibold py-1 px-10 rounded-lg text-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: #46A8C6; focus-ring-color: #46A8C6;">
-            START
+        <!-- Start Button - Más grande -->
+        <div class="text-center mt-6">
+          <button (click)="startChatbot()" class="text-white font-bold py-3 px-12 rounded-lg text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300" style="background-color: #46A8C6;">
+            {{ 'HOME.START_BUTTON' | translate }}
           </button>
         </div>
       </div>
@@ -52,17 +51,17 @@
       </button>
 
       <!-- Popup Content -->
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Agreement CGI-Clinics 101057509</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">{{ 'HOME.AGREEMENT_TITLE' | translate }}</h2>
       <div class="text-gray-700 leading-relaxed">
         <p>
-          Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Health and Digital Executive Agency (HADEA). Neither the European Union nor the granting authority can be held responsible for them.
+          {{ 'HOME.AGREEMENT_CONTENT' | translate }}
         </p>
       </div>
 
       <!-- Close Button at Bottom -->
       <div class="mt-6 flex justify-end">
         <button (click)="closeAgreementPopup()" class="px-6 py-2 rounded-lg font-semibold text-white transition-all duration-300 shadow-md hover:shadow-lg" style="background-color: #46A8C6;">
-          Close
+          {{ 'HOME.CLOSE_BUTTON' | translate }}
         </button>
       </div>
     </div>
